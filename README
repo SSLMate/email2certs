@@ -1,0 +1,17 @@
+smime2ct reads an email message from stdin and submits all S/MIME
+certificates found in the email to Certificate Transparency logs (currently
+Pilot and Rocketeer).
+
+To process an entire Berkeley-style mbox file, you can use formail:
+
+	formail -Y -s smime2ct < mbox
+
+TODO:
+	Allow logs to be specified by user.
+
+	Save the SCTs for later auditing.
+
+	Greater tolerance of malformed input.
+
+	Split into two programs - one that extracts certificates from
+	emails and another that submits certs.
