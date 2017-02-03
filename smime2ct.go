@@ -214,8 +214,10 @@ func main() {
 		close(chainsChan)
 	}()
 
+	numChains := 0
 	wg := sync.WaitGroup{}
 	for chain := range chainsChan {
+		numChains++
 		wg.Add(1)
 		go func(chain Chain) {
 			submitChain(chain)
@@ -225,6 +227,9 @@ func main() {
 	wg.Wait()
 
 	exitStatus := 0
+	if *verbose {
+		log.Printf("%d chains extracted", numChains)
+	}
 	if parseErrors > 0 {
 		log.Printf("%d errors when parsing email", parseErrors)
 		exitStatus |= 4
