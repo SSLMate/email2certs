@@ -11,6 +11,7 @@ package main
 
 import (
 	"bytes"
+	"crypto/sha256"
 	"crypto/x509"
 	"encoding/base64"
 	"encoding/json"
@@ -176,6 +177,7 @@ func submitChain(chain Chain) {
 		return
 	}
 	cn := chain[0].Subject.CommonName
+	fingerprint := sha256.Sum256(chain[0].Raw)
 	mesg := SubmitMessage{Chain: chain.GetRawCerts()}
 
 	wg := sync.WaitGroup{}
@@ -184,11 +186,11 @@ func submitChain(chain Chain) {
 		go func(server string) {
 			respBody, err := submitToLog(server, &mesg)
 			if err != nil {
-				log.Printf("%s: %s: %s", cn, server, err)
+				log.Printf("%x (%s): %s: %s", fingerprint, cn, server, err)
 				atomic.AddUint32(&submitErrors, 1)
 			} else {
 				if *verbose {
-					log.Printf("%s: %s: %s", cn, server, string(respBody))
+					log.Printf("%x (%s): %s: %s", fingerprint, cn, server, string(respBody))
 				}
 			}
 			wg.Done()
