@@ -1,17 +1,12 @@
-smime2ct reads an email message from stdin and submits all S/MIME
-certificates found in the email to Certificate Transparency logs (currently
-Pilot and Rocketeer).
+email2certs reads an email message from stdin and writes all S/MIME
+certificates found in the email to stdout in PEM format.  It is intended
+to facilitate the submission of S/MIME certificates to Certificate
+Transparency logs.
 
 To process an entire Berkeley-style mbox file, you can use formail:
 
-	formail -Y -s smime2ct < mbox
+	formail -Y -s email2certs < mbox
 
 TODO:
-	Allow logs to be specified by user.
-
-	Save the SCTs for later auditing.
-
 	Greater tolerance of malformed input.
-
-	Split into two programs - one that extracts certificates from
-	emails and another that submits certs.
+	Look for certs in other places (attachments, inline PEM, etc.)
