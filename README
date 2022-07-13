@@ -1,7 +1,5 @@
 email2certs reads an email message from stdin and writes all S/MIME
-certificates found in the email to stdout in PEM format.  It is intended
-to facilitate the submission of S/MIME certificates to Certificate
-Transparency logs.
+certificates found in the email to stdout in PEM format.
 
 To process an entire Berkeley-style mbox file, you can use formail:
 
